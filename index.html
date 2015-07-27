@@ -54,7 +54,7 @@ h1 {
           <br><br><br>
           <p id="signup-success" class="text-success"></p>
           <p id="signup-error" class="text-danger"></p> 
-          <form class="col-lg-12" id="signup-form" role="form" onsubmit="return signup(this)">
+          <form class="col-lg-12" id="signup-form" role="form">
             <div class="input-group" style="width:340px;text-align:center;margin:0 auto;">
             <input class="form-control input-lg" title="Don't worry. We hate spam, and will not share your email with anyone." placeholder="Enter your email address" type="email" id="email" name="email">
               <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="submit">OK</button></span>
@@ -172,24 +172,22 @@ h1 {
 	var signupSuccess = document.getElementById('signup-success');
 	var signupError = document.getElementById('signup-error');
 	var signupBtn = document.getElementById('signup-button');
-	var onSignupComplete = function(error) {
+	var onSignupComplete = function(data) {
 		signupBtn.disabled = false;
-		if (error) {
-			signupError.innerHTML = 'Sorry. Could not signup.';
-		} else {
-			signupSuccess.innerHTML = 'Thanks for signing up!';
-			// hide the form
-			signupForm.style.display = 'none';
-	  	}
+		signupSuccess.innerHTML = 'Thanks for signing up!';
+		signupForm.style.display = 'none';
 	};
-	function signup(formObj) {
+
+	$("#signup-form").submit( function(e){
+		e.preventDefault();
+
 		var myFlybaseRef = new Flybase("74c8064f-cd6f-4c07-8baf-b1d241496eec", "fly", "signups");
 		myFlybaseRef.push({
-			email: formObj.email.value,
+			email: $("#email").val(),
 		}, onSignupComplete);
 		signupBtn.disabled = true;
 		return false;
-	}
+	});
   </script>
  
  
